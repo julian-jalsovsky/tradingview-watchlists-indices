@@ -4,10 +4,6 @@ import org.jsoup.select.Elements;
 
 public class SP500Watchlist extends Watchlist {
 
-    public SP500Watchlist() {
-        super();
-    }
-
     @Override
     protected void extractSymbols() {
         String url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies";
