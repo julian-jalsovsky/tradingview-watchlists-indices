@@ -3,6 +3,8 @@ import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,7 +15,7 @@ import java.util.TreeMap;
 
 public abstract class Watchlist {
 
-    protected final Map<String, String> symbols;
+    private final Map<String, String> symbols;
 
     public Watchlist() {
         symbols = new TreeMap<>();
@@ -60,6 +62,12 @@ public abstract class Watchlist {
             return reader.readAll();
         } catch (IOException | CsvException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected void storeSymbols(Elements links) {
+        for (Element link : links) {
+            symbols.put(link.text(), null);
         }
     }
 

@@ -13,8 +13,6 @@ public class SP500Watchlist extends Watchlist {
         assert table != null;
         Elements links = table.getElementsByClass("external text");
 
-        for (Element link : links) {
-            symbols.put(link.text(), null);
-        }
+        storeSymbols(links);
     }
 }

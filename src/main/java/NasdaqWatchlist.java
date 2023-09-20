@@ -13,8 +13,6 @@ public class NasdaqWatchlist extends Watchlist {
         assert table != null;
         Elements links = table.select("tr td:eq(1)");
 
-        for (Element link : links) {
-            symbols.put(link.text(), null);
-        }
+        storeSymbols(links);
     }
 }
