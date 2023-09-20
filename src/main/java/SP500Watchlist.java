@@ -1,18 +1,10 @@
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import com.opencsv.exceptions.CsvException;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.*;
-
 public class SP500Watchlist extends Watchlist {
 
-    public SP500Watchlist() throws IOException, CsvException {
+    public SP500Watchlist() {
         super();
     }
 

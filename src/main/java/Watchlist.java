@@ -15,27 +15,13 @@ public abstract class Watchlist {
 
     protected final Map<String, String> symbols;
 
-    public Watchlist() throws IOException, CsvException {
+    public Watchlist() {
         symbols = new TreeMap<>();
         extractSymbols();
         addExchanges();
     }
 
     protected abstract void extractSymbols();
-
-    private void addExchanges() throws IOException, CsvException {
-        CSVReader reader = new CSVReaderBuilder(new FileReader("listed_companies.csv")).build();
-        List<String[]> myEntries = reader.readAll();
-
-        Map<String, String> map = new HashMap<>();
-        for (String[] entry : myEntries) {
-            map.put(entry[0], entry[1]);
-        }
-
-        for (String symbol : symbols.keySet()) {
-            symbols.replace(symbol, map.get(symbol));
-        }
-    }
 
     public String getWatchlist() {
         StringBuilder watchlist = new StringBuilder();
@@ -47,10 +33,38 @@ public abstract class Watchlist {
         }
         return watchlist.toString();
     }
+    
+    private void addExchanges() {
+        Map<String, String> listedCompanies = getListedCompanies();
+        for (String symbol : symbols.keySet()) {
+            symbols.replace(symbol, listedCompanies.get(symbol));
+        }
+    }
+
+    private Map<String, String> getListedCompanies() {
+        List<String[]> listedCompanies = readCSV();
+        return convertListToMap(listedCompanies);
+    }
+
+    private Map<String, String> convertListToMap(List<String[]> companies) {
+        Map<String, String> map = new HashMap<>();
+        for (String[] entry : companies) {
+            map.put(entry[0], entry[1]);
+        }
+        return map;
+    }
+
+    private List<String[]> readCSV() {
+        String fileName = "listed_companies.csv";
+        try(CSVReader reader = new CSVReaderBuilder(new FileReader(fileName)).build()) {
+            return reader.readAll();
+        } catch (IOException | CsvException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     protected Document requestHTML(String url) {
         Document html;
-
         try {
             html = Jsoup.connect(url).get();
         } catch (IOException e) {
