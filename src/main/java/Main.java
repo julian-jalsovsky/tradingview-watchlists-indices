@@ -6,5 +6,8 @@ public class Main {
 
         Watchlist watchlistNasdaq = new NasdaqWatchlist();
         System.out.println(watchlistNasdaq.getWatchlist());
+
+        Watchlist watchlistDow = new DowWatchlist();
+        System.out.println(watchlistDow.getWatchlist());
     }
 }
